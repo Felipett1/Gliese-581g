@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head/>
+    <h:body>
+        <ui:composition template="../Plantilla.xhtml">
+            <ui:define name="body">
+                <h:form id="formularioPrincipal">
+                    <p:growl id="growl" showDetail="true"/>
+                    <p:panel id="pnlReAbrirActividades" header="Reabrir actividad" style="margin-bottom:20px; width: 630px;">
+                        <h:outputText value="Actividad:" style="position: relative; font-weight: bold"/>
+                        <p:inputText id="actividad" value="#{controlReAbrirActividad.actividadSeleccionada.actividad}" style="position: relative; left: 10px; width: 450px" readonly="true"/>
+                        <p:commandButton value="" icon="ui-icon-search" style="position: relative; left: 10px; top: 9px; width: 30px; height: 30px" onclick="PF('actividadesDialogo').show();"/>
+                        <br/><br/>
+
+                        <h:panelGrid columns="4" cellpadding="5" style="position: relative; left: -7px">
+                            <h:outputText value="Causa:" style="font-weight: bold"/>
+                            <p:selectOneMenu id="causas" value="#{controlReAbrirActividad.causa}">
+                                <f:selectItem itemLabel="Seleccionar una causa" itemValue="NA"/>
+                                <f:selectItems value="#{controlReAbrirActividad.causasString}"/>
+                                <p:ajax event="change" update="@this, desCausa, desCausaV" />
+                            </p:selectOneMenu>
+
+                            <h:outputText id="desCausa" value="Descripcion:" style="#{controlReAbrirActividad.reAbrirActividad.causa != null ? 'font-weight: bold' : 'visibility: hidden'}"/>
+                            <h:outputText id="desCausaV" value="#{controlReAbrirActividad.reAbrirActividad.causa.descripcion}" style="#{controlReAbrirActividad.reAbrirActividad.causa != null ? '' : 'visibility: hidden'}"/>
+                            <h:outputText value="Fecha inicio: " style="font-weight: bold"/>
+                            <p:calendar value="#{controlReAbrirActividad.reAbrirActividad.fechaInicial}" pattern="dd-MM-yyyy" mask="true">
+                                <p:ajax event="dateSelect" update="@this" />
+                            </p:calendar>
+
+                            <h:outputText value="Fecha fin: " style="font-weight: bold"/>
+                            <p:calendar value="#{controlReAbrirActividad.reAbrirActividad.fechaFinal}" pattern="dd-MM-yyyy" mask="true">
+                                <p:ajax event="dateSelect" update="@this" />
+                            </p:calendar>
+                        </h:panelGrid>
+
+                        <h:outputText value="Horas estimadas:" style="position: relative; font-weight: bold"/>
+                        <p:inputText id="horasEstimadas" value="#{controlReAbrirActividad.reAbrirActividad.horasEstimadas}" style="position: relative; left: 10px; width: 50px">
+                            <p:ajax event="change" update="@this"/>
+                        </p:inputText>
+                        <br/><br/>
+
+                        <h:outputText value="Observaciones:" style="font-weight: bold; "/>
+                        <br/>
+                        <p:inputTextarea id="observaciones" value="#{controlReAbrirActividad.reAbrirActividad.observacion}" style="position: relative; width: 98%; height: 80px; overflow: auto; top: 5px" maxlength="255" required="false">
+                            <p:ajax event="blur" update="@this"/>
+                        </p:inputTextarea>
+                        <br/><br/>
+                        <p:commandButton value="Limpiar" action="#{controlReAbrirActividad.limpiarCampos()}" process="@this"/>
+                        <p:commandButton id="reAbrir" value="Reabrir" action="#{controlReAbrirActividad.reAbrirActividadSeleccionada()}" process="@this" />
+                    </p:panel>
+
+                    <p:tree id="arbol" value="#{controlReAbrirActividad.actividadPadre}" var="node" animate="true" selectionMode="single" styleClass="ui-tree" style="visibility: hidden">
+                        <p:treeNode expandedIcon="ui-icon-bullet" collapsedIcon="ui-icon-bullet" styleClass="anchoNodoArbol">
+                            <span style="cursor: pointer;" onclick="this.parentNode.parentNode.firstChild.click();">
+                                <h:outputText value="#{node}" />
+                            </span>
+                        </p:treeNode>
+                    </p:tree>
+                </h:form>
+                <h:form id="formularioDialogos">
+                    <p:dialog id="actividadesDialogo" header="Actividades" widgetVar="actividadesDialogo" draggable="false" resizable="false" closable="false"  
+                              showEffect="fade" hideEffect="fade" width="690" modal="true" >
+
+                        <p:dataTable id="tblActividades" style="width: 652px" var="actividad" value="#{controlReAbrirActividad.listaActividades}" rowKey="#{actividad.id}"
+                                     selection="#{controlReAbrirActividad.actividadSeleccionada}" selectionMode="single" widgetVar="wvActividades" scrollable="true" scrollWidth="667" scrollHeight="300"
+                                     filteredValue="#{controlReAbrirActividad.filtroListaActividades}" emptyMessage="No se encontro la actividad.">
+                            <f:facet name="header">
+                                <h:outputText value="Buscar actividad:"  style="position: absolute; left: 27px; top: 17px"/>  
+                                <p:inputText id="globalFilter" onkeyup="PF('wvActividades').filter();" style="width:250px; position: relative; left: -65px;"/>  
+                                <p:watermark for="globalFilter" value="Ingrese un valor" />
+                            </f:facet>
+                            <p:column filterBy="#{actividad.wbs}" width="100" filterMatchMode="contains" filterStyle="width: 80px">
+                                <f:facet name="header">
+                                    <h:outputText style="text-align: center" value="WBS" />
+                                </f:facet>
+                                <h:outputText  value="#{actividad.wbs}" />
+                            </p:column>
+                            <p:column filterBy="#{actividad.actividad}"  filterMatchMode="contains" filterStyle="width: 250px">
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre actividad" />
+                                </f:facet>
+                                <h:outputText value="#{actividad.actividad}" />
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:commandButton id="aceptar" style="position: relative; left: 495px" value="Aceptar" icon="ui-icon-check" onclick="PF('wvActividades').clearFilters();" actionListener="#{controlReAbrirActividad.seleccionarActividad()}"  update="aceptar" process="@this">
+                            <p:resetInput target=":formularioDialogos:tblActividades:globalFilter"/>
+                        </p:commandButton>
+                        <p:commandButton id="atras" style="position: relative; left: 495px" value="Atras"  onclick="PF('actividadesDialogo').hide(), PF('wvActividades').clearFilters();" actionListener="#{controlReAbrirActividad.cancelarSeleccionActividad()}" icon="ui-icon-arrowreturnthick-1-w" update=":formularioDialogos:actividadesDialogo" process="@this">
+                            <p:resetInput target=":formularioDialogos:tblActividades:globalFilter"/>
+                        </p:commandButton>
+                    </p:dialog>
+                </h:form> 
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
