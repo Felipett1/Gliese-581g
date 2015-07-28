@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -21,13 +20,8 @@ public class Rol implements Serializable {
     @NotNull
     @Column(name = "ID")
     private BigDecimal id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
     @Column(name = "NOMBRE")
     private String nombre;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "COSTO")
     private BigDecimal costo;
 

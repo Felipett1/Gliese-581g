@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head/>
+    <h:body>
+        <ui:composition template="../Plantilla.xhtml">
+            <ui:define name="body">       
+                <h:form id="formularioPrincipal">
+                    <p:growl id="growl" showDetail="true"/>
+
+                    <p:dataTable id="tblRecursosActuales" widgetVar="tblRecursosActuales" value="#{controladorRecursos.listaRecursos}" var="recurso" selectionMode="single" selection="#{controladorRecursos.seleccionRecurso}"
+                                 rowKey="#{recurso.identificacion}" emptyMessage="No se encontraron Recursos"  rowIndexVar="indice">
+                        <p:column headerText="Identificación">
+                            <h:outputText value="#{recurso.identificacion}"/>
+                        </p:column>
+
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{recurso.nombre}"/>
+                        </p:column>
+
+                        <p:column headerText="Primer apellido">
+                            <h:outputText value="#{recurso.primerApellido}"/>
+                        </p:column>
+
+                        <p:column headerText="Segundo apellido">
+                            <h:outputText value="#{recurso.segundoApellido}"/>
+                        </p:column>
+
+                        <p:column headerText="Rol">
+                            <h:outputText value="#{recurso.rol.nombre}"/>
+                        </p:column>
+
+                        <p:column width="50" headerText="Editar">
+                            <center>
+                                <p:commandButton icon="ui-icon-refresh" oncomplete="PF('dialogoEditarRecurso').show();" 
+                                                 onclick="PF('tblRecursosActuales').unselectAllRows(#{indice}); PF('tblRecursosActuales').selectRow(#{indice});" 
+                                                 update=":formularioPrincipal:growl, :formularioPrincipal:tblRecursosActuales, :formularioDialogos:panelRecursoEditar"/>
+                            </center>
+                        </p:column>
+
+                        <p:column width="50" headerText="Eliminar">
+                            <center>
+                                <p:commandButton icon="ui-icon-close"  
+                                                 onclick="PF('tblRecursosActuales').unselectAllRows(#{indice}); PF('tblRecursosActuales').selectRow(#{indice}); PF('dialogoEliminarRecurso').show();" 
+                                                 update=":formularioPrincipal:growl, :formularioPrincipal:tblRecursosActuales"/>
+                            </center>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Agregar Recurso" icon="ui-icon-plus" update=":formularioDialogos:panelRecurso" oncomplete="PF('dialogoCrearRecurso').show();"/>
+                </h:form>
+                <h:form id="formularioDialogos">
+                    <p:dialog id="dialogoCrearRecurso" widgetVar="dialogoCrearRecurso" header="Crear Recurso"
+                              closable="false" resizable="false" modal="true" draggable="false">
+                        <p:panelGrid columns="2" id="panelRecurso">
+                            <p:outputLabel for="identificacionRecurso" value="Identificación: " style="font-weight: bold"/>
+                            <p:inputText id="identificacionRecurso" value="#{controladorRecursos.nuevoRecurso.identificacion}"/>
+                            <p:outputLabel for="nombreRecurso" value="Nombre: " style="font-weight: bold"/>
+                            <p:inputText id="nombreRecurso" value="#{controladorRecursos.nuevoRecurso.nombre}"/>
+                            <p:outputLabel for="primerApellidoRecurso" value="Primer apellido: " style="font-weight: bold"/>
+                            <p:inputText id="primerApellidoRecurso" value="#{controladorRecursos.nuevoRecurso.primerApellido}"/>
+                            <p:outputLabel for="segundoApellidoRecurso" value="Segundo apellido: " style="font-weight: bold"/>
+                            <p:inputText id="segundoApellidoRecurso" value="#{controladorRecursos.nuevoRecurso.segundoApellido}"/>
+                            <p:outputLabel for="rolRecurso" value="Rol: " style="font-weight: bold"/>
+                            <p:selectOneMenu id="rolRecurso" value="#{controladorRecursos.nuevoRecurso.rol}" converter="#{convertidorRoles}">
+                                <f:selectItem itemLabel="Seleccionar un recurso" itemValue="#{null}" />
+                                <f:selectItems value="#{controladorRecursos.listaRoles}" var="rol" itemLabel="#{rol.nombre}" itemValue="#{rol}" />
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <br/>
+                        <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('dialogoCrearRecurso').hide();"
+                                         style="float: right;"/>
+                        <p:commandButton value="Aceptar" icon="ui-icon-check" update=":formularioPrincipal:growl, :formularioPrincipal:tblRecursosActuales"
+                                         actionListener="#{controladorRecursos.agregarRecurso()}" 
+                                         style="float: right" process="@this, panelRecurso"/>
+                    </p:dialog>
+
+                    <p:dialog id="dialogoEliminarRecurso" widgetVar="dialogoEliminarRecurso" header="Eliminar Recurso"
+                              closable="false" resizable="false" modal="true" draggable="false">
+                        <p:panelGrid columns="2">
+                            <p:column>
+                                <h:graphicImage value="Imagenes/alerta.jpg" width="80" height="60"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="¿Esta seguro de que desea eliminar este recurso?"/>
+                                <br/><br/>
+                                <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('dialogoEliminarRecurso').hide();"
+                                                 style="float: right;"/>
+                                <p:commandButton value="Aceptar" icon="ui-icon-check" update=":formularioPrincipal:growl, :formularioPrincipal:tblRecursosActuales"
+                                                 actionListener="#{controladorRecursos.eliminarRecurso()}" onclick="PF('dialogoEliminarRecurso').hide();"
+                                                 style="float: right" process="@this"/>
+                            </p:column>
+                        </p:panelGrid>
+                    </p:dialog>
+
+                    <p:dialog id="dialogoEditarRecurso" widgetVar="dialogoEditarRecurso" header="Editar Recurso"
+                              closable="false" resizable="false" modal="true" draggable="false">
+                        <p:panelGrid columns="2" id="panelRecursoEditar">
+                            <p:outputLabel for="identificacionRecursoEditar" value="Identificación: " style="font-weight: bold"/>
+                            <p:inputText id="identificacionRecursoEditar" value="#{controladorRecursos.seleccionRecurso != null ? controladorRecursos.seleccionRecurso.identificacion : ''}"/>
+                            <p:outputLabel for="nombreRecursoEditar" value="Nombre: " style="font-weight: bold"/>
+                            <p:inputText id="nombreRecursoEditar" value="#{controladorRecursos.seleccionRecurso != null ? controladorRecursos.seleccionRecurso.nombre : ''}"/>
+                            <p:outputLabel for="primerApellidoRecursoEditar" value="Primer apellido: " style="font-weight: bold"/>
+                            <p:inputText id="primerApellidoRecursoEditar" value="#{controladorRecursos.seleccionRecurso != null ? controladorRecursos.seleccionRecurso.primerApellido : ''}"/>
+                            <p:outputLabel for="segundoApellidoRecursoEditar" value="Segundo apellido: " style="font-weight: bold"/>
+                            <p:inputText id="segundoApellidoRecursoEditar" value="#{controladorRecursos.seleccionRecurso != null ? controladorRecursos.seleccionRecurso.segundoApellido : ''}"/>
+                            <p:outputLabel for="rolRecursoEditar" value="Rol: " style="font-weight: bold"/>
+                            <p:selectOneMenu id="rolRecursoEditar" value="#{controladorRecursos.seleccionRecurso.rol}" converter="#{convertidorRoles}">
+                                <f:selectItem itemLabel="Seleccionar un recurso" itemValue="#{null}" />
+                                <f:selectItems value="#{controladorRecursos.listaRoles}" var="rol" itemLabel="#{rol.nombre}" itemValue="#{rol}" />
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <br/>
+                        <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('dialogoEditarRecurso').hide();"
+                                         style="float: right;"/>
+                        <p:commandButton value="Aceptar" icon="ui-icon-check" update=":formularioPrincipal:growl, :formularioPrincipal:tblRecursosActuales"
+                                         actionListener="#{controladorRecursos.editarRecurso()}" 
+                                         style="float: right" process="@this, panelRecursoEditar"/>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

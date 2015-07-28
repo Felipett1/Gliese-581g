@@ -15,4 +15,12 @@ public interface IPersistenciaRecurso {
     public boolean registrarRecurso(Recurso recurso);
 
     public Recurso obtenerRecurso(Long identificacion);
+
+    public boolean eliminarRecurso(co.entidades.Recurso recurso);
+
+    public boolean modificarRecurso(co.entidades.Recurso recurso);
+
+    public java.util.List<co.entidades.Recurso> obtenerRecursos();
+
+    public boolean validarIdentificacionRecurso(java.lang.Long identificacionRecurso);
 }

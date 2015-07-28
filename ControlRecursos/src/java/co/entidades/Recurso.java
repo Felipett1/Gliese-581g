@@ -18,21 +18,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Recurso implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "IDENTIFICACION")
-    private long identificacion;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
+    private Long identificacion;
     @Column(name = "NOMBRE")
     private String nombre;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
     @Column(name = "PRIMER_APELLIDO")
     private String primerApellido;
-    @Size(max = 100)
     @Column(name = "SEGUNDO_APELLIDO")
     private String segundoApellido;
     @JoinColumn(name = "ROL", referencedColumnName = "ID")
@@ -42,11 +33,11 @@ public class Recurso implements Serializable {
     public Recurso() {
     }
 
-    public Recurso(long identificacion) {
+    public Recurso(Long identificacion) {
         this.identificacion = identificacion;
     }
 
-    public Recurso(String nombre, String primerApellido, long identificacion) {
+    public Recurso(String nombre, String primerApellido, Long identificacion) {
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.identificacion = identificacion;
@@ -76,11 +67,11 @@ public class Recurso implements Serializable {
         this.segundoApellido = segundoApellido;
     }
 
-    public long getIdentificacion() {
+    public Long getIdentificacion() {
         return identificacion;
     }
 
-    public void setIdentificacion(long identificacion) {
+    public void setIdentificacion(Long identificacion) {
         this.identificacion = identificacion;
     }
 

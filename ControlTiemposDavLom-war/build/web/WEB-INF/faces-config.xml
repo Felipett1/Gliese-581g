@@ -33,6 +33,14 @@
             <from-outcome>estadisticas</from-outcome>
             <to-view-id>/controlHoras/estadisticas.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>roles</from-outcome>
+            <to-view-id>/controlRecursos/roles.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>recursos</from-outcome>
+            <to-view-id>/controlRecursos/recursos.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>/login.xhtml</from-view-id>

@@ -20,5 +20,7 @@ public interface IPersistenciaRol {
     public boolean eliminarRol(co.entidades.Rol rol);
 
     public boolean modificarRol(co.entidades.Rol rol);
+
+    public co.entidades.Rol obtenerRol(java.math.BigDecimal id);
     
 }

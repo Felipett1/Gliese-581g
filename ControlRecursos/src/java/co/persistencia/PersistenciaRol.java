@@ -2,6 +2,7 @@ package co.persistencia;
 
 import co.entidades.Rol;
 import co.interfaces.persistencia.IPersistenciaRol;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -57,6 +58,18 @@ public class PersistenciaRol implements IPersistenciaRol {
             return query.getResultList();
         } catch (Exception e) {
             System.out.println("Error PersistenciaRol.obtenerRoles: " + e);
+            return null;
+        }
+    }
+    
+    @Override
+    public Rol obtenerRol(BigDecimal id) {
+        try {
+            Query query = em.createQuery("SELECT r FROM Rol r WHERE r.id = :id");
+            query.setParameter("id", id);
+            return (Rol) query.getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Error PersistenciaRol.obtenerRol: " + e);
             return null;
         }
     }
