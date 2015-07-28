@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.controlador;
+package co.controHoras.controlador;
 
 import co.entidades.*;
 import co.interfaces.administrar.IAdministrarRegistrosHoras;

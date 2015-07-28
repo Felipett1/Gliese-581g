@@ -1,4 +1,4 @@
-package co.controlador;
+package co.controHoras.controlador;
 
 import co.entidades.Login;
 import co.interfaces.administrar.IAdministrarLogin;

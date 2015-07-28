@@ -1,4 +1,4 @@
-package co.controlRecursos.controlador1;
+package co.controlRecursos.controlador;
 
 import co.entidades.Rol;
 import co.interfaces.administrar.IAdministrarRoles;
