@@ -19,12 +19,12 @@
         <Node id="faces/asignacionActividades.xhtml" x="150" y="300" zoom="true"/>
     </Scope>
     <Scope Scope="All Faces Configurations">
-        <Node id="Plantilla.xhtml" x="150" y="450" zoom="true"/>
-        <Node id="changePassword.xhtml" x="650" y="150" zoom="true"/>
-        <Node id="registroHoras.xhtml" x="900" y="150" zoom="true"/>
-        <Node id="estadisticas.xhtml" x="400" y="150" zoom="true"/>
-        <Node id="asignacionActividades.xhtml" x="150" y="300" zoom="true"/>
-        <Node id="reportes.xhtml" x="400" y="300" zoom="true"/>
-        <Node id="reAbrirActividad.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="Plantilla.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="controlHoras/reAbrirActividad.xhtml" x="42" y="89" zoom="true"/>
+        <Node id="controlHoras/asignacionActividades.xhtml" x="645" y="114" zoom="true"/>
+        <Node id="controlHoras/estadisticas.xhtml" x="481" y="421" zoom="true"/>
+        <Node id="controlHoras/changePassword.xhtml" x="472" y="248" zoom="true"/>
+        <Node id="controlHoras/reportes.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="controlHoras/registroHoras.xhtml" x="364" y="39" zoom="true"/>
     </Scope>
 </Scene>

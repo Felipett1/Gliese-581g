@@ -47,6 +47,10 @@ public class Login implements Serializable {
     @Size(min = 1, max = 1)
     @Column(name = "ADMINISTRADOR")
     private String administrado;
+    @Column(name = "MODULO_CH")
+    private String moduloCH;
+    @Column(name = "MODULO_CR")
+    private String moduloCR;
 
     public Login() {
     }
@@ -112,6 +116,24 @@ public class Login implements Serializable {
         }
         return true;
     }
+
+    public String getModuloCH() {
+        return moduloCH;
+    }
+
+    public void setModuloCH(String moduloCH) {
+        this.moduloCH = moduloCH;
+    }
+
+    public String getModuloCR() {
+        return moduloCR;
+    }
+
+    public void setModuloCR(String moduloCR) {
+        this.moduloCR = moduloCR;
+    }
+    
+    
 
     @Override
     public String toString() {

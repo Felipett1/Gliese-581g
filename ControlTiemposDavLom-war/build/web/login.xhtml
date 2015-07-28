@@ -26,9 +26,12 @@
             <p class="forgot-password" ><a href="#">¿Olvido su contraseña?</a></p>
         </h:form>
         <h:form id="formularioAuxiliar">
-            <p:remoteCommand name="iniciarApp" actionListener="#{controlRegistroHoras.usuarioLogeado(controlLogin.login.idEmpleado)}" action="registroHoras"/>
-            <p:remoteCommand name="iniciarPlantilla" actionListener="#{controlPlantilla.usuarioLogeado(controlLogin.login.idEmpleado)}"/>
+            <p:remoteCommand name="iniciarAppControlHoras" actionListener="#{controlRegistroHoras.usuarioLogeado(controlLogin.login.idEmpleado)}" action="registroHoras"/>
+            <p:remoteCommand name="iniciarPlantilla" actionListener="#{controlPlantilla.usuarioLogeado(controlLogin.login.idEmpleado, controlLogin.modulo)}"/>
             <p:remoteCommand name="iniciarCambioPwd" actionListener="#{controlChangePassword.recibirLogin(controlLogin.login)}"/>
+            
+            
+            <p:remoteCommand name="iniciarAppControlRecursos"  action="roles"/>
         </h:form>
     </h:body>
 </html>

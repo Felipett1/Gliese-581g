@@ -19,7 +19,7 @@
             <div id="left" >   
                 <h:form>
                     <div id='cssmenu' style="position: absolute">
-                        <ul>
+                        <ul style="#{controlPlantilla.verMenuCH}">
                             <li class='active'><a><span>Bienvenido(a) <br/> #{controlPlantilla.empleado.employeeName}</span></a></li>
                             <li class='has-sub'><a href='#'><span>Perfil</span></a>
                                 <ul>
@@ -27,15 +27,29 @@
                                 </ul>
                             </li>
                             <li class='last'><a href='#' onclick="registroHoras()"><span>Registro de horas</span></a></li>
-                            <li style="#{controlPlantilla.verMenu}" class='has-sub'><a href='#'><span>Actividades</span></a>
+                            <li style="#{controlPlantilla.verSubMenuCH}" class='has-sub'><a href='#'><span>Actividades</span></a>
                                 <ul>
                                     <li class='last'><a href='#' onclick="asignacionActividades()"><span>Asignación</span></a></li>
                                     <li class='last'><a href='#' onclick="reAbrirActividad()"><span>Reabrir</span></a></li>
                                     <li class='last'><a href='#'><span>Control</span></a></li>
                                 </ul>
                             </li>
-                            <li style="#{controlPlantilla.verMenu}" class='last'><a href='#' onclick="reportes()"><span>Reportes</span></a></li>
-                            <li style="#{controlPlantilla.verMenu}" class='last'><a href='#' onclick="estadisticas()"><span>Estadisticas</span></a></li>
+                            <li style="#{controlPlantilla.verSubMenuCH}" class='last'><a href='#' onclick="reportes()"><span>Reportes</span></a></li>
+                            <li style="#{controlPlantilla.verSubMenuCH}" class='last'><a href='#' onclick="estadisticas()"><span>Estadisticas</span></a></li>
+                            <li class='last'><a href='#' onclick="cerrarSesion()"><span>Cerrar sesión</span></a></li>
+                        </ul>
+
+                        <ul style="#{controlPlantilla.verMenuCR}">
+                            <li class='active'><a><span>Bienvenido(a) <br/> #{controlPlantilla.empleado.employeeName}</span></a></li>
+                            <li class='has-sub'><a href='#'><span>Perfil</span></a>
+                                <ul>
+                                    <li class='last'><a href='#' onclick="cambioPwd()"><span>Cambiar contraseña</span></a></li>
+                                </ul>
+                            </li>
+                            <li class='last'><a href='#' onclick="roles()"><span>Roles</span></a></li>
+                            <li class='last'><a href='#' onclick="recursos()"><span>Recursos</span></a></li>
+                            <li style="#{controlPlantilla.verSubMenuCR}" class='last'><a href='#'><span>Reportes</span></a></li>
+                            <li style="#{controlPlantilla.verSubMenuCR}" class='last'><a href='#'><span>Estadisticas</span></a></li>
                             <li class='last'><a href='#' onclick="cerrarSesion()"><span>Cerrar sesión</span></a></li>
                         </ul>
                     </div>
@@ -46,6 +60,10 @@
                     <p:remoteCommand name="cambioPwd" action="changePassword" />
                     <p:remoteCommand name="reportes" action="reportes" />
                     <p:remoteCommand name="estadisticas" action="estadisticas" />
+
+                    <p:remoteCommand name="roles" action="roles" />
+                    <p:remoteCommand name="recursos" action="recursos" />
+
                 </h:form>
             </div>
             <div id="content" class="left_content">

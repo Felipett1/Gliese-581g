@@ -4,11 +4,15 @@
  */
 package co.interfaces.persistencia;
 
+import co.entidades.Recurso;
+
 /**
  *
  * @author 908036
  */
 public interface IPersistenciaRecurso {
 
-    public boolean registrarRecurso(co.entidades.Recurso recurso);
+    public boolean registrarRecurso(Recurso recurso);
+
+    public Recurso obtenerRecurso(Long identificacion);
 }

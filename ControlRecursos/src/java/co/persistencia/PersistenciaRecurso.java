@@ -5,11 +5,11 @@ import co.interfaces.persistencia.IPersistenciaRecurso;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 @Stateless
-public class PersistenciaRecurso implements IPersistenciaRecurso{
+public class PersistenciaRecurso implements IPersistenciaRecurso {
 
-    
     @PersistenceContext(unitName = "ControlRecursosPU")
     private EntityManager em;
 
@@ -26,5 +26,16 @@ public class PersistenciaRecurso implements IPersistenciaRecurso{
             return false;
         }
     }
-    
+
+    @Override
+    public Recurso obtenerRecurso(Long identificacion) {
+        try {
+            Query query = em.createQuery("SELECT r FROM Recurso r WHERE r.identificacion = :identificacion");
+            query.setParameter("identificacion", identificacion);
+            return (Recurso) query.getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Error PersistenciaRecurso.obtenerRecurso");
+            return null;
+        }
+    }
 }

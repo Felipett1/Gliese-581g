@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+    </h:head>
+    <h:body>
+        <ui:composition template="../Plantilla.xhtml">
+            <ui:define name="body">       
+                <h:form id="formularioPrincipal">
+                    <p:growl id="growl" showDetail="true"/>
+
+                    <p:dataTable id="tblRolesActuales" widgetVar="tblRolesActuales" value="#{controladorRoles.listaRoles}" var="rol" selectionMode="single" selection="#{controladorRoles.seleccionRol}"
+                                 rowKey="#{rol.id}" emptyMessage="No se encontraron roles" style="width: 80%" rowIndexVar="indice">
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{rol.nombre}"/>
+                        </p:column>
+
+                        <p:column headerText="Costo">
+                            <h:outputText value="#{rol.costo}">
+                                <f:convertNumber currencySymbol="$" type="currency" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column width="50" headerText="Editar">
+                            <center>
+                                <p:commandButton icon="ui-icon-refresh" oncomplete="PF('dialogoEditarRol').show();" 
+                                                 onclick="PF('tblRolesActuales').unselectAllRows(#{indice}); PF('tblRolesActuales').selectRow(#{indice});" 
+                                                 update=":formularioPrincipal:growl, :formularioPrincipal:tblRolesActuales, :formularioDialogos:panelRolEditar"/>
+                            </center>
+                        </p:column>
+
+                        <p:column width="50" headerText="Eliminar">
+                            <center>
+                                <p:commandButton icon="ui-icon-close"  
+                                                 onclick="PF('tblRolesActuales').unselectAllRows(#{indice}); PF('tblRolesActuales').selectRow(#{indice}); PF('dialogoEliminarRol').show();" 
+                                                 update=":formularioPrincipal:growl, :formularioPrincipal:tblRolesActuales"/>
+                            </center>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Agregar rol" icon="ui-icon-plus" update=":formularioDialogos:panelRol" oncomplete="PF('dialogoCrearRol').show();"/>
+                </h:form>
+                <h:form id="formularioDialogos">
+                    <p:dialog id="dialogoCrearRol" widgetVar="dialogoCrearRol" header="Crear Rol"
+                              closable="false" resizable="false" modal="true" draggable="false">
+                        <p:panelGrid columns="2" id="panelRol">
+                            <p:outputLabel for="nombreRol" value="Nombre: " style="font-weight: bold"/>
+                            <p:inputText id="nombreRol" value="#{controladorRoles.nuevoRol.nombre}"/>
+                            <p:outputLabel for="costoRol" value="Costo por hora: " style="font-weight: bold"/>
+                            <p:inputText id="costoRol" value="#{controladorRoles.nuevoRol.costo}"/>
+                        </p:panelGrid>
+                        <br/>
+                        <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('dialogoCrearRol').hide();"
+                                         style="float: right;"/>
+                        <p:commandButton value="Aceptar" icon="ui-icon-check" update=":formularioPrincipal:growl, :formularioPrincipal:tblRolesActuales"
+                                         actionListener="#{controladorRoles.agregarRol()}" 
+                                         style="float: right" process="@this, panelRol"/>
+                    </p:dialog>
+
+                    <p:dialog id="dialogoEliminarRol" widgetVar="dialogoEliminarRol" header="Eliminar Rol"
+                              closable="false" resizable="false" modal="true" draggable="false">
+                        <p:panelGrid columns="2">
+                            <p:column>
+                                <h:graphicImage value="Imagenes/alerta.jpg" width="80" height="60"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="¿Esta seguro de que desea eliminar este rol?"/>
+                                <br/><br/>
+                                <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('dialogoEliminarRol').hide();"
+                                                 style="float: right;"/>
+                                <p:commandButton value="Aceptar" icon="ui-icon-check" update=":formularioPrincipal:growl, :formularioPrincipal:tblRolesActuales"
+                                                 actionListener="#{controladorRoles.eliminarRol()}" onclick="PF('dialogoEliminarRol').hide();"
+                                                 style="float: right" process="@this"/>
+                            </p:column>
+                        </p:panelGrid>
+                    </p:dialog>
+                    
+                    <p:dialog id="dialogoEditarRol" widgetVar="dialogoEditarRol" header="Editar Rol"
+                              closable="false" resizable="false" modal="true" draggable="false">
+                        <p:panelGrid columns="2" id="panelRolEditar">
+                            <p:outputLabel for="nombreRolEditar" value="Nombre: " style="font-weight: bold"/>
+                            <p:inputText id="nombreRolEditar" value="#{controladorRoles.seleccionRol.nombre}"/>
+                            <p:outputLabel for="costoRolEditar" value="Costo por hora: " style="font-weight: bold"/>
+                            <p:inputText id="costoRolEditar" value="#{controladorRoles.seleccionRol.costo}"/>
+                        </p:panelGrid>
+                        <br/>
+                        <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('dialogoEditarRol').hide();"
+                                         style="float: right;"/>
+                        <p:commandButton value="Aceptar" icon="ui-icon-check" update=":formularioPrincipal:growl, :formularioPrincipal:tblRolesActuales"
+                                         actionListener="#{controladorRoles.editarRol()}" 
+                                         style="float: right" process="@this, panelRolEditar"/>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

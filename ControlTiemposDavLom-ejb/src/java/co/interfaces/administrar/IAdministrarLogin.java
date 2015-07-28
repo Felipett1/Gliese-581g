@@ -2,6 +2,7 @@ package co.interfaces.administrar;
 
 import co.entidades.Login;
 import co.excepciones.PasswordIncorrectoExcepcion;
+import co.excepciones.PermisosModuloExcepcion;
 import co.excepciones.UsuarioIncorrectoExcepcion;
 
 /**
@@ -10,6 +11,6 @@ import co.excepciones.UsuarioIncorrectoExcepcion;
  */
 public interface IAdministrarLogin {
 
-    public Login validarInicioSesion(String nombreUsuario, String password) throws UsuarioIncorrectoExcepcion, PasswordIncorrectoExcepcion;
+    public Login validarInicioSesion(String nombreUsuario, String password, int modulo) throws UsuarioIncorrectoExcepcion, PasswordIncorrectoExcepcion, PermisosModuloExcepcion;
     public boolean cambiarPassword(Login login);
 }

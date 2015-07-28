@@ -11,27 +11,45 @@
         <from-view-id>/Plantilla.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>registroHoras</from-outcome>
-            <to-view-id>controlHoras/registroHoras.xhtml</to-view-id>
+            <to-view-id>/controlHoras/registroHoras.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>asignacionActividades</from-outcome>
-            <to-view-id>controlHoras/asignacionActividades.xhtml</to-view-id>
+            <to-view-id>/controlHoras/asignacionActividades.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>reportes</from-outcome>
-            <to-view-id>controlHoras/reportes.xhtml</to-view-id>
+            <to-view-id>/controlHoras/reportes.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>changePassword</from-outcome>
-            <to-view-id>controlHoras/changePassword.xhtml</to-view-id>
+            <to-view-id>/controlHoras/changePassword.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>reAbrirActividad</from-outcome>
-            <to-view-id>controlHoras/reAbrirActividad.xhtml</to-view-id>
+            <to-view-id>/controlHoras/reAbrirActividad.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>estadisticas</from-outcome>
-            <to-view-id>controlHoras/estadisticas.xhtml</to-view-id>
+            <to-view-id>/controlHoras/estadisticas.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>registroHoras</from-outcome>
+            <to-view-id>/controlHoras/registroHoras.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>roles</from-outcome>
+            <to-view-id>/controlRecursos2/roles.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/modulos.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>
