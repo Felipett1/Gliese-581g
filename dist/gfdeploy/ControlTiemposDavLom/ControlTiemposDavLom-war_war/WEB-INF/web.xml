@@ -19,7 +19,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list> 
-       <!-- <welcome-file>faces/controlRecursos2/prueba.xhtml</welcome-file> -->
+       <!-- <welcome-file>faces/controlRecursos/prueba.xhtml</welcome-file> -->
         <welcome-file>faces/modulos.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>

@@ -24,7 +24,7 @@
         <Node id="controlHoras/asignacionActividades.xhtml" x="645" y="114" zoom="true"/>
         <Node id="controlHoras/estadisticas.xhtml" x="481" y="421" zoom="true"/>
         <Node id="controlHoras/changePassword.xhtml" x="472" y="248" zoom="true"/>
-        <Node id="controlHoras/reportes.xhtml" x="150" y="450" zoom="true"/>
         <Node id="controlHoras/registroHoras.xhtml" x="364" y="39" zoom="true"/>
+        <Node id="controlHoras/reportes.xhtml" x="150" y="450" zoom="true"/>
     </Scope>
 </Scene>

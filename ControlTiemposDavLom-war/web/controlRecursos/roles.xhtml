@@ -82,9 +82,9 @@
                               closable="false" resizable="false" modal="true" draggable="false">
                         <p:panelGrid columns="2" id="panelRolEditar">
                             <p:outputLabel for="nombreRolEditar" value="Nombre: " style="font-weight: bold"/>
-                            <p:inputText id="nombreRolEditar" value="#{controladorRoles.seleccionRol.nombre}"/>
+                            <p:inputText id="nombreRolEditar" value="#{controladorRoles.seleccionRol != null ? controladorRoles.seleccionRol.nombre : ''}"/>
                             <p:outputLabel for="costoRolEditar" value="Costo por hora: " style="font-weight: bold"/>
-                            <p:inputText id="costoRolEditar" value="#{controladorRoles.seleccionRol.costo}"/>
+                            <p:inputText id="costoRolEditar" value="#{controladorRoles.seleccionRol != null ? controladorRoles.seleccionRol.costo : ''}"/>
                         </p:panelGrid>
                         <br/>
                         <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('dialogoEditarRol').hide();"
