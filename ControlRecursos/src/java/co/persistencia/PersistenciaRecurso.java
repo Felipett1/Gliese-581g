@@ -2,6 +2,7 @@ package co.persistencia;
 
 import co.entidades.Recurso;
 import co.interfaces.persistencia.IPersistenciaRecurso;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -39,7 +40,7 @@ public class PersistenciaRecurso implements IPersistenciaRecurso {
             return null;
         }
     }
-    
+
     @Override
     public boolean eliminarRecurso(Recurso recurso) {
         try {
@@ -50,7 +51,7 @@ public class PersistenciaRecurso implements IPersistenciaRecurso {
             return false;
         }
     }
-    
+
     @Override
     public boolean modificarRecurso(Recurso recurso) {
         try {
@@ -75,9 +76,9 @@ public class PersistenciaRecurso implements IPersistenciaRecurso {
             return null;
         }
     }
-    
+
     @Override
-    public boolean validarIdentificacionRecurso(Long identificacionRecurso ) {
+    public boolean validarIdentificacionRecurso(Long identificacionRecurso) {
         try {
             Query query = em.createQuery("SELECT COUNT(r) FROM Recurso r WHERE r.identificacion = :identificacionRecurso");
             query.setParameter("identificacionRecurso", identificacionRecurso);
@@ -85,6 +86,18 @@ public class PersistenciaRecurso implements IPersistenciaRecurso {
         } catch (Exception e) {
             System.out.println("Error PersistenciaRecurso.validarIdentificacionRecurso: " + e);
             return false;
+        }
+    }
+
+    @Override
+    public boolean validarRolEnRecurso(BigDecimal idRol) {
+        try {
+            Query query = em.createQuery("SELECT COUNT(r) FROM Recurso r WHERE r.rol.id = :idRol");
+            query.setParameter("idRol", idRol);
+            return (Long) query.getSingleResult() > 0;
+        } catch (Exception e) {
+            System.out.println("Error PersistenciaAsignacion.validarAsignacionRecurso: " + e);
+            return true;
         }
     }
 }

@@ -17,5 +17,7 @@ public interface IAdministrarRecursos {
     public boolean validarIdentificacionRecurso(java.lang.Long identificacionRecurso);
     public java.util.List<co.entidades.Rol> obtenerListadoRoles();
     public co.entidades.Rol obtenerRol(java.math.BigDecimal id);
+    public boolean validarAsignacionRecurso(java.lang.Long identificacionRecurso);
+    public boolean validarAusentismoRecurso(java.lang.Long identificacionRecurso);
     
 }

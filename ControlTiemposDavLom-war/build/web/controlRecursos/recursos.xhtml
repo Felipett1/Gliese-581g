@@ -13,7 +13,7 @@
                     <p:growl id="growl" showDetail="true"/>
 
                     <p:dataTable id="tblRecursosActuales" widgetVar="tblRecursosActuales" value="#{controladorRecursos.listaRecursos}" var="recurso" selectionMode="single" selection="#{controladorRecursos.seleccionRecurso}"
-                                 rowKey="#{recurso.identificacion}" emptyMessage="No se encontraron Recursos"  rowIndexVar="indice">
+                                 rowKey="#{recurso.identificacion}" emptyMessage="No se encontrarón Recursos"  rowIndexVar="indice">
                         <p:column headerText="Identificación">
                             <h:outputText value="#{recurso.identificacion}"/>
                         </p:column>
@@ -51,6 +51,7 @@
                         </p:column>
                     </p:dataTable>
                     <p:commandButton value="Agregar Recurso" icon="ui-icon-plus" update=":formularioDialogos:panelRecurso" oncomplete="PF('dialogoCrearRecurso').show();"/>
+
                 </h:form>
                 <h:form id="formularioDialogos">
                     <p:dialog id="dialogoCrearRecurso" widgetVar="dialogoCrearRecurso" header="Crear Recurso"

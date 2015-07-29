@@ -20,5 +20,7 @@ public interface IAdministrarRoles {
     public boolean eliminarRol(co.entidades.Rol rol);
 
     public boolean modificarRol(co.entidades.Rol rol);
+
+    public boolean validarRolEnRecurso(java.math.BigDecimal idRol);
     
 }

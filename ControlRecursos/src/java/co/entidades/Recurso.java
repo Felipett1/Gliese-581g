@@ -2,8 +2,6 @@ package co.entidades;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -16,6 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Recurso.findAll", query = "SELECT r FROM Recurso r")})
 public class Recurso implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "IDENTIFICACION")
@@ -29,6 +28,8 @@ public class Recurso implements Serializable {
     @JoinColumn(name = "ROL", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Rol rol;
+    @Transient
+    private String nombreCompleto;
 
     public Recurso() {
     }
@@ -83,9 +84,18 @@ public class Recurso implements Serializable {
         this.rol = rol;
     }
 
+    public String getNombreCompleto() {
+        if (nombre != null && primerApellido != null) {
+            this.nombreCompleto = nombre + " " + primerApellido;
+            if (segundoApellido != null) {
+                this.nombreCompleto = this.nombreCompleto + " " + segundoApellido;
+            }
+        }
+        return nombreCompleto;
+    }
+
     @Override
     public String toString() {
         return "co.entidades.Recurso[ id=" + identificacion + " ]";
     }
-    
 }

@@ -25,7 +25,7 @@ public class PersistenciaRol implements IPersistenciaRol {
             return false;
         }
     }
-    
+
     @Override
     public boolean eliminarRol(Rol rol) {
         try {
@@ -36,7 +36,7 @@ public class PersistenciaRol implements IPersistenciaRol {
             return false;
         }
     }
-    
+
     @Override
     public boolean modificarRol(Rol rol) {
         try {
@@ -61,7 +61,7 @@ public class PersistenciaRol implements IPersistenciaRol {
             return null;
         }
     }
-    
+
     @Override
     public Rol obtenerRol(BigDecimal id) {
         try {

@@ -9,12 +9,12 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class ControladorRoles implements Serializable {
 
     @EJB
@@ -54,12 +54,16 @@ public class ControladorRoles implements Serializable {
     public void eliminarRol() {
         FacesMessage msg = null;
         if (seleccionRol != null) {
-            if (administrarRoles.eliminarRol(seleccionRol)) {
-                seleccionRol = null;
-                requerirListaRoles();
-                msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", "Rol eliminado exitosamente.");
+            if (!administrarRoles.validarRolEnRecurso(seleccionRol.getId())) {
+                if (administrarRoles.eliminarRol(seleccionRol)) {
+                    seleccionRol = null;
+                    requerirListaRoles();
+                    msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", "Rol eliminado exitosamente.");
+                } else {
+                    msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el rol.");
+                }
             } else {
-                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el rol.");
+                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No es posible eliminar el rol porque esta asignado a un recurso.");
             }
         }
         FacesContext.getCurrentInstance().addMessage(null, msg);

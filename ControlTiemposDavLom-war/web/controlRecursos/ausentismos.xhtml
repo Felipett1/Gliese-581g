@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head/>
+    <h:body>
+        <ui:composition template="../Plantilla.xhtml">
+            <ui:define name="body">       
+                <h:form id="formularioPrincipal">
+                    <p:growl id="growl" showDetail="true"/>
+
+                    <p:dataTable id="tblAusentismosActuales" widgetVar="tblAusentismosActuales" value="#{controladorAusentismos.listaAusentismo}" var="Ausentismo" selectionMode="single" selection="#{controladorAusentismos.seleccionAusentismo}"
+                                 rowKey="#{Ausentismo.id}" emptyMessage="No se encontrarón Ausentismos"  rowIndexVar="indice">
+                        <p:column headerText="Identificación">
+                            <h:outputText value="#{Ausentismo.idRecurso.identificacion}"/>
+                        </p:column>
+
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{Ausentismo.idRecurso.nombreCompleto}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha inicio">
+                            <h:outputText value="#{Ausentismo.fechaInicio}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Fecha fin">
+                            <h:outputText value="#{Ausentismo.fechaFin}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column width="50" headerText="Editar">
+                            <center>
+                                <p:commandButton icon="ui-icon-refresh" oncomplete="PF('dialogoEditarAusentismo').show();" 
+                                                 onclick="PF('tblAusentismosActuales').unselectAllRows(#{indice}); PF('tblAusentismosActuales').selectRow(#{indice});" 
+                                                 update=":formularioPrincipal:growl, :formularioPrincipal:tblAusentismosActuales, :formularioDialogos:panelAusentismoEditar"/>
+                            </center>
+                        </p:column>
+
+                        <p:column width="50" headerText="Eliminar">
+                            <center>
+                                <p:commandButton icon="ui-icon-close"  
+                                                 onclick="PF('tblAusentismosActuales').unselectAllRows(#{indice}); PF('tblAusentismosActuales').selectRow(#{indice}); PF('dialogoEliminarAusentismo').show();" 
+                                                 update=":formularioPrincipal:growl, :formularioPrincipal:tblAusentismosActuales"/>
+                            </center>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Agregar Ausentismo" icon="ui-icon-plus" update=":formularioDialogos:panelAusentismo" oncomplete="PF('dialogoCrearAusentismo').show();"/>
+
+                </h:form>
+                <h:form id="formularioDialogos">
+                    <p:dialog id="dialogoCrearAusentismo" widgetVar="dialogoCrearAusentismo" header="Crear Ausentismo"
+                              closable="false" resizable="false" modal="true" draggable="false">
+                        <p:panelGrid columns="2" id="panelAusentismo">
+                            <p:outputLabel for="recursoAusentismo" value="Recurso: " style="font-weight: bold"/>
+                            <p:column>
+                                <p:inputText id="recursoAusentismo" value="#{controladorAusentismos.nuevoAusentismo.idRecurso.nombreCompleto}" readonly="true"/>
+                                <p:commandButton icon="ui-icon-search" style="width: 30px; height: 30px;"
+                                                 actionListener="#{controladorAusentismos.opcionLovRecursos(0)}" oncomplete="PF('lovRecursos').show();"/>
+                            </p:column>
+
+                            <p:outputLabel for="fechaInicioAusentismo" value="Fecha inicio: " style="font-weight: bold"/>
+                            <p:calendar id="fechaInicioAusentismo" value="#{controladorAusentismos.nuevoAusentismo.fechaInicio}" pattern="dd-MM-yyyy" mask="true" />
+
+                            <p:outputLabel for="fechaFinAusentismo" value="Fecha fin: " style="font-weight: bold"/>
+                            <p:calendar id="fechaFinAusentismo" value="#{controladorAusentismos.nuevoAusentismo.fechaFin}" pattern="dd-MM-yyyy" mask="true" />
+                        </p:panelGrid>
+                        <br/>
+                        <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('dialogoCrearAusentismo').hide();"
+                                         style="float: right;"/>
+                        <p:commandButton value="Aceptar" icon="ui-icon-check" update=":formularioPrincipal:growl, :formularioPrincipal:tblAusentismosActuales"
+                                         actionListener="#{controladorAusentismos.agregarAusentismo()}" 
+                                         style="float: right" process="@this, panelAusentismo"/>
+                    </p:dialog>
+
+                    <p:dialog id="dialogoEliminarAusentismo" widgetVar="dialogoEliminarAusentismo" header="Eliminar Ausentismo"
+                              closable="false" resizable="false" modal="true" draggable="false">
+                        <p:panelGrid columns="2">
+                            <p:column>
+                                <h:graphicImage value="Imagenes/alerta.jpg" width="80" height="60"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="¿Esta seguro de que desea eliminar este Ausentismo?"/>
+                                <br/><br/>
+                                <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('dialogoEliminarAusentismo').hide();"
+                                                 style="float: right;"/>
+                                <p:commandButton value="Aceptar" icon="ui-icon-check" update=":formularioPrincipal:growl, :formularioPrincipal:tblAusentismosActuales"
+                                                 actionListener="#{controladorAusentismos.eliminarAusentismo()}" onclick="PF('dialogoEliminarAusentismo').hide();"
+                                                 style="float: right" process="@this"/>
+                            </p:column>
+                        </p:panelGrid>
+                    </p:dialog>
+
+                    <p:dialog id="dialogoEditarAusentismo" widgetVar="dialogoEditarAusentismo" header="Editar Ausentismo"
+                              closable="false" resizable="false" modal="true" draggable="false">
+                        <p:panelGrid columns="2" id="panelAusentismoEditar">
+                            <p:outputLabel for="recursoAusentismoEditar" value="Recurso: " style="font-weight: bold"/>
+                            <p:column>
+                                <p:inputText id="recursoAusentismoEditar" value="#{controladorAusentismos.seleccionAusentismo.idRecurso.nombreCompleto}" readonly="true"/>
+                                <p:commandButton icon="ui-icon-search" style="width: 30px; height: 30px;" 
+                                                 actionListener="#{controladorAusentismos.opcionLovRecursos(1)}" oncomplete="PF('lovRecursos').show();"/>
+                            </p:column>
+
+                            <p:outputLabel for="fechaInicioAusentismoEditar" value="Fecha inicio: " style="font-weight: bold"/>
+                            <p:calendar id="fechaInicioAusentismoEditar" value="#{controladorAusentismos.seleccionAusentismo.fechaInicio}" pattern="dd-MM-yyyy" mask="true" />
+
+                            <p:outputLabel for="fechaFinAusentismoEditar" value="Fecha fin: " style="font-weight: bold"/>
+                            <p:calendar id="fechaFinAusentismoEditar" value="#{controladorAusentismos.seleccionAusentismo.fechaFin}" pattern="dd-MM-yyyy" mask="true" />
+                        </p:panelGrid>
+                        <br/>
+                        <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('dialogoEditarAusentismo').hide();"
+                                         style="float: right;"/>
+                        <p:commandButton value="Aceptar" icon="ui-icon-check" update=":formularioPrincipal:growl, :formularioPrincipal:tblAusentismosActuales"
+                                         actionListener="#{controladorAusentismos.editarAusentismo()}" 
+                                         style="float: right" process="@this, panelAusentismoEditar"/>
+                    </p:dialog>
+
+                    <p:dialog id="lovRecursos" widgetVar="lovRecursos" header="Recursos"
+                              closable="false" resizable="false" modal="true" draggable="false" width="800">
+
+                        <p:dataTable var="recurso" value="#{controladorAusentismos.lovRecursos}" widgetVar="tblLovRecursos"
+                                     emptyMessage="No se encontrarón recursos" filteredValue="#{controladorAusentismos.filtradoLovRecursos}"
+                                     selectionMode="single" selection="#{controladorAusentismos.seleccionRecurso}" 
+                                     rowKey="#{recurso.identificacion}" scrollWidth="200">
+
+                            <f:facet name="header">
+                                <div align="left">
+                                    <h:outputText value="Buscar: " />
+                                    <p:inputText id="globalFilter" onkeyup="PF('tblLovRecursos').filter()" style="width:150px" placeholder="Ingrese una palabra"/>
+                                </div>
+                            </f:facet>
+
+                            <p:column filterStyle="display: none; visibility: hidden;" filterBy="#{recurso.identificacion}" headerText="Identificación" filterMatchMode="contains" width="100">
+                                <h:outputText value="#{recurso.identificacion}" />
+                            </p:column>
+
+                            <p:column filterStyle="display: none; visibility: hidden;" filterBy="#{recurso.nombreCompleto}" headerText="Nombre" filterMatchMode="contains">
+                                <h:outputText value="#{recurso.nombreCompleto}" />
+                            </p:column>
+
+                            <p:column filterStyle="display: none; visibility: hidden;" filterBy="#{recurso.rol.nombre}" headerText="Rol" filterMatchMode="contains" width="200">
+                                <h:outputText value="#{recurso.rol.nombre}" />
+                            </p:column>
+                        </p:dataTable>
+
+                        <br/>
+                        <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('lovRecursos').hide();"
+                                         style="float: right;"/>
+                        <p:commandButton value="Aceptar" icon="ui-icon-check"
+                                         actionListener="#{controladorAusentismos.seleccionarRecurso()}" oncomplete="PF('lovRecursos').hide();"
+                                         style="float: right" process="@this"/>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

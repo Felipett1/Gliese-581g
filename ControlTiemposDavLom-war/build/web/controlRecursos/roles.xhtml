@@ -14,7 +14,7 @@
                     <p:growl id="growl" showDetail="true"/>
 
                     <p:dataTable id="tblRolesActuales" widgetVar="tblRolesActuales" value="#{controladorRoles.listaRoles}" var="rol" selectionMode="single" selection="#{controladorRoles.seleccionRol}"
-                                 rowKey="#{rol.id}" emptyMessage="No se encontraron roles" style="width: 80%" rowIndexVar="indice">
+                                 rowKey="#{rol.id}" emptyMessage="No se encontrarón roles" style="width: 80%" rowIndexVar="indice">
                         <p:column headerText="Nombre">
                             <h:outputText value="#{rol.nombre}"/>
                         </p:column>

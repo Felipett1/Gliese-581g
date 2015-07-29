@@ -9,12 +9,13 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FlowEvent;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class ControladorRecursos implements Serializable {
 
     @EJB
@@ -41,7 +42,7 @@ public class ControladorRecursos implements Serializable {
                 && nuevoRecurso.getPrimerApellido() != null && !nuevoRecurso.getSegundoApellido().isEmpty()
                 && nuevoRecurso.getIdentificacion() != null && nuevoRecurso.getRol() != null) {
             if (!administrarRecursos.validarIdentificacionRecurso(nuevoRecurso.getIdentificacion())) {
-                if (nuevoRecurso.getRol() != null && administrarRecursos.registrarRecurso(nuevoRecurso)) {
+                if (administrarRecursos.registrarRecurso(nuevoRecurso)) {
                     nuevoRecurso = new Recurso();
                     requerirListaRecursos();
                     context.execute("PF('dialogoCrearRecurso').hide();");
@@ -61,12 +62,20 @@ public class ControladorRecursos implements Serializable {
     public void eliminarRecurso() {
         FacesMessage msg = null;
         if (seleccionRecurso != null) {
-            if (administrarRecursos.eliminarRecurso(seleccionRecurso)) {
-                seleccionRecurso = null;
-                requerirListaRecursos();
-                msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", "Recurso eliminado exitosamente.");
+            if (administrarRecursos.validarAsignacionRecurso(seleccionRecurso.getIdentificacion())) {
+                if (administrarRecursos.validarAusentismoRecurso(seleccionRecurso.getIdentificacion())) {
+                    if (administrarRecursos.eliminarRecurso(seleccionRecurso)) {
+                        seleccionRecurso = null;
+                        requerirListaRecursos();
+                        msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", "Recurso eliminado exitosamente.");
+                    } else {
+                        msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el Recurso.");
+                    }
+                } else {
+                    msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El recurso no puede ser eliminado porque tiene registrado uno o varios ausentismos.");
+                }
             } else {
-                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el Recurso.");
+                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El recurso no puede ser eliminado porque esta asignado a una acta.");
             }
         }
         FacesContext.getCurrentInstance().addMessage(null, msg);

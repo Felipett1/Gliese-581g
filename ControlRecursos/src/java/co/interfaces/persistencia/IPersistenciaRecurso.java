@@ -23,4 +23,6 @@ public interface IPersistenciaRecurso {
     public java.util.List<co.entidades.Recurso> obtenerRecursos();
 
     public boolean validarIdentificacionRecurso(java.lang.Long identificacionRecurso);
+
+    public boolean validarRolEnRecurso(java.math.BigDecimal idRol);
 }

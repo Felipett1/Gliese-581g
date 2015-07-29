@@ -3,10 +3,11 @@ package co.com.administrar;
 import co.entidades.Recurso;
 import co.entidades.Rol;
 import co.interfaces.administrar.IAdministrarRecursos;
+import co.interfaces.persistencia.IPersistenciaAsignacion;
+import co.interfaces.persistencia.IPersistenciaAusentismo;
 import co.interfaces.persistencia.IPersistenciaRecurso;
 import co.interfaces.persistencia.IPersistenciaRol;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
@@ -18,6 +19,10 @@ public class AdministrarRecursos implements IAdministrarRecursos {
     IPersistenciaRecurso persistenciaRecurso;
     @EJB
     IPersistenciaRol persistenciaRol;
+    @EJB
+    IPersistenciaAsignacion persistenciaAsignacion;
+    @EJB
+    IPersistenciaAusentismo persistenciaAusentismo;
 
     @Override
     public boolean registrarRecurso(Recurso recurso) {
@@ -52,5 +57,15 @@ public class AdministrarRecursos implements IAdministrarRecursos {
     @Override
     public Rol obtenerRol(BigDecimal id){
         return persistenciaRol.obtenerRol(id);
+    }
+    
+    @Override
+    public boolean validarAsignacionRecurso(Long identificacionRecurso){
+        return persistenciaAsignacion.validarAsignacionRecurso(identificacionRecurso);
+    }
+    
+    @Override
+    public boolean validarAusentismoRecurso(Long identificacionRecurso){
+        return persistenciaAusentismo.validarAusentismoRecurso(identificacionRecurso);
     }
 }

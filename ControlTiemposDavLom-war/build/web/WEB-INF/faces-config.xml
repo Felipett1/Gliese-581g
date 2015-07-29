@@ -41,6 +41,10 @@
             <from-outcome>recursos</from-outcome>
             <to-view-id>/controlRecursos/recursos.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>ausentismos</from-outcome>
+            <to-view-id>/controlRecursos/ausentismos.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>/login.xhtml</from-view-id>
