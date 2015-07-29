@@ -18,11 +18,8 @@ public class PersistenciaRecurso implements IPersistenciaRecurso {
     @Override
     public boolean registrarRecurso(Recurso recurso) {
         try {
-            if (em.merge(recurso) != null) {
-                return true;
-            } else {
-                return false;
-            }
+            em.persist(recurso);
+            return true;
         } catch (Exception e) {
             System.out.println("Error PersistenciaRecurso.registrarRecurso: " + e);
             return false;

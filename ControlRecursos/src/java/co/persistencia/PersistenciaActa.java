@@ -17,11 +17,8 @@ public class PersistenciaActa implements IPersistenciaActa {
     @Override
     public boolean registrarActa(Acta acta) {
         try {
-            if (em.merge(acta) != null) {
-                return true;
-            } else {
-                return false;
-            }
+            em.persist(acta);
+            return true;
         } catch (Exception e) {
             System.out.println("Error PersistenciaActa.registrarActa: " + e);
             return false;

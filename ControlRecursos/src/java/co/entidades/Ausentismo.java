@@ -21,13 +21,9 @@ public class Ausentismo implements Serializable {
     @NotNull
     @Column(name = "ID")
     private BigDecimal id;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "FECHA_INICIO")
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "FECHA_FIN")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;

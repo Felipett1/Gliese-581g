@@ -4,6 +4,7 @@ import co.entidades.Ausentismo;
 import co.entidades.Recurso;
 import co.interfaces.administrar.IAdministrarAusentismos;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -43,6 +44,7 @@ public class ControladorAusentismos implements Serializable {
         if (nuevoAusentismo.getFechaInicio() != null && nuevoAusentismo.getFechaFin() != null
                 && nuevoAusentismo.getIdRecurso() != null) {
             if (!administrarAusentismo.validarFechasAusentismoRecurso(nuevoAusentismo.getIdRecurso().getIdentificacion(), nuevoAusentismo.getFechaInicio(), nuevoAusentismo.getFechaFin())) {
+                nuevoAusentismo.setId(BigDecimal.ZERO);
                 if (administrarAusentismo.registrarAusentismo(nuevoAusentismo)) {
                     nuevoAusentismo = new Ausentismo();
                     requerirListaAusentismo();
@@ -93,7 +95,6 @@ public class ControladorAusentismos implements Serializable {
     }
 
     public void seleccionarRecurso() {
-        System.out.println("opcionLovRecurso: " + opcionLovRecurso);
         RequestContext context = RequestContext.getCurrentInstance();
         if (opcionLovRecurso == 0 && seleccionRecurso != null) {
             nuevoAusentismo.setIdRecurso(seleccionRecurso);
@@ -102,6 +103,7 @@ public class ControladorAusentismos implements Serializable {
             seleccionAusentismo.setIdRecurso(seleccionRecurso);
             context.update("formularioDialogos:recursoAusentismoEditar");
         }
+        seleccionRecurso = null;
     }
 
     public void opcionLovRecursos(int opcion) {

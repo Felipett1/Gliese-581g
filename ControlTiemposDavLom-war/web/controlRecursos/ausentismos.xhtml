@@ -14,7 +14,7 @@
 
                     <p:dataTable id="tblAusentismosActuales" widgetVar="tblAusentismosActuales" value="#{controladorAusentismos.listaAusentismo}" var="Ausentismo" selectionMode="single" selection="#{controladorAusentismos.seleccionAusentismo}"
                                  rowKey="#{Ausentismo.id}" emptyMessage="No se encontrarón Ausentismos"  rowIndexVar="indice">
-                        <p:column headerText="Identificación">
+                        <p:column headerText="Identificación" width="100">
                             <h:outputText value="#{Ausentismo.idRecurso.identificacion}"/>
                         </p:column>
 
@@ -22,13 +22,13 @@
                             <h:outputText value="#{Ausentismo.idRecurso.nombreCompleto}"/>
                         </p:column>
 
-                        <p:column headerText="Fecha inicio">
+                        <p:column headerText="Fecha inicio" width="80">
                             <h:outputText value="#{Ausentismo.fechaInicio}">
                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </h:outputText>
                         </p:column>
 
-                        <p:column headerText="Fecha fin">
+                        <p:column headerText="Fecha fin" width="80">
                             <h:outputText value="#{Ausentismo.fechaFin}">
                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </h:outputText>
@@ -59,7 +59,7 @@
                         <p:panelGrid columns="2" id="panelAusentismo">
                             <p:outputLabel for="recursoAusentismo" value="Recurso: " style="font-weight: bold"/>
                             <p:column>
-                                <p:inputText id="recursoAusentismo" value="#{controladorAusentismos.nuevoAusentismo.idRecurso.nombreCompleto}" readonly="true"/>
+                                <p:inputText id="recursoAusentismo" value="#{controladorAusentismos.nuevoAusentismo.idRecurso.nombreCompleto}" readonly="true" />
                                 <p:commandButton icon="ui-icon-search" style="width: 30px; height: 30px;"
                                                  actionListener="#{controladorAusentismos.opcionLovRecursos(0)}" oncomplete="PF('lovRecursos').show();"/>
                             </p:column>
@@ -123,11 +123,11 @@
                     <p:dialog id="lovRecursos" widgetVar="lovRecursos" header="Recursos"
                               closable="false" resizable="false" modal="true" draggable="false" width="800">
 
-                        <p:dataTable var="recurso" value="#{controladorAusentismos.lovRecursos}" widgetVar="tblLovRecursos"
+                        <p:dataTable id="tblLovRecursos" var="recurso" value="#{controladorAusentismos.lovRecursos}" widgetVar="tblLovRecursos"
                                      emptyMessage="No se encontrarón recursos" filteredValue="#{controladorAusentismos.filtradoLovRecursos}"
                                      selectionMode="single" selection="#{controladorAusentismos.seleccionRecurso}" 
-                                     rowKey="#{recurso.identificacion}" scrollWidth="200">
-
+                                     rowKey="#{recurso.identificacion}" rowIndexVar="indiceRecurso">
+                            <p:ajax event="rowSelect"/>
                             <f:facet name="header">
                                 <div align="left">
                                     <h:outputText value="Buscar: " />

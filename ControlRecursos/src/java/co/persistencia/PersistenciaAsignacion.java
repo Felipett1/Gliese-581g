@@ -16,11 +16,8 @@ public class PersistenciaAsignacion implements IPersistenciaAsignacion{
     @Override
     public boolean registrarAsignacion(Asignacion asignacion) {
         try {
-            if (em.merge(asignacion) != null) {
-                return true;
-            } else {
-                return false;
-            }
+            em.persist(asignacion);
+            return true;
         } catch (Exception e) {
             System.out.println("Error PersistenciaAsignacion.registrarAsignacion: " + e);
             return false;

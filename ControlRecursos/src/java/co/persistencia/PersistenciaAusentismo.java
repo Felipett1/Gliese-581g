@@ -18,11 +18,8 @@ public class PersistenciaAusentismo implements IPersistenciaAusentismo {
     @Override
     public boolean ingresarAusentismo(Ausentismo ausentismo) {
         try {
-            if (em.merge(ausentismo) != null) {
-                return true;
-            } else {
-                return false;
-            }
+            em.persist(ausentismo);
+            return true;
         } catch (Exception e) {
             System.out.println("Error PersistenciaAusentismo.ingresarAusentismo: " + e);
             return false;
@@ -81,7 +78,8 @@ public class PersistenciaAusentismo implements IPersistenciaAusentismo {
     public boolean validarFechasAusentismoRecurso(Long identificacionRecurso, Date fechaInicio, Date fechaFin) {
         try {
             Query query = em.createQuery("SELECT COUNT(a) FROM Ausentismo a WHERE a.idRecurso.identificacion = :identificacionRecurso "
-                    + "AND (:fechaInicio BETWEEN a.fechaInicio AND a.fechaFin OR :fechaFin BETWEEN a.fechaInicio AND a.fechaFin)");
+                    + "AND (:fechaInicio BETWEEN a.fechaInicio AND a.fechaFin OR :fechaFin BETWEEN a.fechaInicio AND a.fechaFin "
+                    + "OR (:fechaInicio <= a.fechaInicio AND :fechaFin >= a.fechaFin))");
             query.setParameter("identificacionRecurso", identificacionRecurso);
             query.setParameter("fechaInicio", fechaInicio);
             query.setParameter("fechaFin", fechaFin);
