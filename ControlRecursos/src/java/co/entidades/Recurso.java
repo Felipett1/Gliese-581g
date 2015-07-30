@@ -17,6 +17,7 @@ public class Recurso implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "IDENTIFICACION")
     private Long identificacion;
     @Column(name = "NOMBRE")

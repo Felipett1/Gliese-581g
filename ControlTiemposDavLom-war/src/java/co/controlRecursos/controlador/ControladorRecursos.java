@@ -12,7 +12,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.FlowEvent;
 
 @ManagedBean
 @ViewScoped
@@ -62,8 +61,8 @@ public class ControladorRecursos implements Serializable {
     public void eliminarRecurso() {
         FacesMessage msg = null;
         if (seleccionRecurso != null) {
-            if (administrarRecursos.validarAsignacionRecurso(seleccionRecurso.getIdentificacion())) {
-                if (administrarRecursos.validarAusentismoRecurso(seleccionRecurso.getIdentificacion())) {
+            if (!administrarRecursos.validarAsignacionRecurso(seleccionRecurso.getIdentificacion())) {
+                if (!administrarRecursos.validarAusentismoRecurso(seleccionRecurso.getIdentificacion())) {
                     if (administrarRecursos.eliminarRecurso(seleccionRecurso)) {
                         seleccionRecurso = null;
                         requerirListaRecursos();

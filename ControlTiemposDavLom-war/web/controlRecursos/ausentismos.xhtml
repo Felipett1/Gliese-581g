@@ -65,10 +65,10 @@
                             </p:column>
 
                             <p:outputLabel for="fechaInicioAusentismo" value="Fecha inicio: " style="font-weight: bold"/>
-                            <p:calendar id="fechaInicioAusentismo" value="#{controladorAusentismos.nuevoAusentismo.fechaInicio}" pattern="dd-MM-yyyy" mask="true" />
+                            <p:calendar id="fechaInicioAusentismo" value="#{controladorAusentismos.nuevoAusentismo.fechaInicio}" pattern="dd/MM/yyyy" mask="true" />
 
                             <p:outputLabel for="fechaFinAusentismo" value="Fecha fin: " style="font-weight: bold"/>
-                            <p:calendar id="fechaFinAusentismo" value="#{controladorAusentismos.nuevoAusentismo.fechaFin}" pattern="dd-MM-yyyy" mask="true" />
+                            <p:calendar id="fechaFinAusentismo" value="#{controladorAusentismos.nuevoAusentismo.fechaFin}" pattern="dd/MM/yyyy" mask="true" />
                         </p:panelGrid>
                         <br/>
                         <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('dialogoCrearAusentismo').hide();"
@@ -107,10 +107,10 @@
                             </p:column>
 
                             <p:outputLabel for="fechaInicioAusentismoEditar" value="Fecha inicio: " style="font-weight: bold"/>
-                            <p:calendar id="fechaInicioAusentismoEditar" value="#{controladorAusentismos.seleccionAusentismo.fechaInicio}" pattern="dd-MM-yyyy" mask="true" />
+                            <p:calendar id="fechaInicioAusentismoEditar" value="#{controladorAusentismos.seleccionAusentismo.fechaInicio}" pattern="dd/MM/yyyy" mask="true" />
 
                             <p:outputLabel for="fechaFinAusentismoEditar" value="Fecha fin: " style="font-weight: bold"/>
-                            <p:calendar id="fechaFinAusentismoEditar" value="#{controladorAusentismos.seleccionAusentismo.fechaFin}" pattern="dd-MM-yyyy" mask="true" />
+                            <p:calendar id="fechaFinAusentismoEditar" value="#{controladorAusentismos.seleccionAusentismo.fechaFin}" pattern="dd/MM/yyyy" mask="true" />
                         </p:panelGrid>
                         <br/>
                         <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('dialogoEditarAusentismo').hide();"
