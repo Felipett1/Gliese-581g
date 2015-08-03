@@ -4,6 +4,7 @@ import co.entidades.Recurso;
 import co.entidades.Rol;
 import co.interfaces.administrar.IAdministrarRecursos;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -41,6 +42,7 @@ public class ControladorRecursos implements Serializable {
                 && nuevoRecurso.getPrimerApellido() != null && !nuevoRecurso.getSegundoApellido().isEmpty()
                 && nuevoRecurso.getIdentificacion() != null && nuevoRecurso.getRol() != null) {
             if (!administrarRecursos.validarIdentificacionRecurso(nuevoRecurso.getIdentificacion())) {
+                nuevoRecurso.setId(BigDecimal.ZERO);
                 if (administrarRecursos.registrarRecurso(nuevoRecurso)) {
                     nuevoRecurso = new Recurso();
                     requerirListaRecursos();

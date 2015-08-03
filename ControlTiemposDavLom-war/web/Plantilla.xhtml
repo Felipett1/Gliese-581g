@@ -46,6 +46,12 @@
                                     <li class='last'><a href='#' onclick="cambioPwd()"><span>Cambiar contraseña</span></a></li>
                                 </ul>
                             </li>
+                            <li class='has-sub'><a href='#'><span>Acta</span></a>
+                                <ul>
+                                    <li class='last'><a href='#' onclick="crearActa()"><span>Crear</span></a></li>
+                                    <li class='last'><a href='#' ><span>Estado</span></a></li>
+                                </ul>
+                            </li>
                             <li class='last'><a href='#' onclick="roles()"><span>Roles</span></a></li>
                             <li class='last'><a href='#' onclick="recursos()"><span>Recursos</span></a></li>
                             <li class='last'><a href='#' onclick="ausentismos()"><span>Ausentismos</span></a></li>
@@ -65,7 +71,7 @@
                     <p:remoteCommand name="roles" action="roles" />
                     <p:remoteCommand name="recursos" action="recursos" />
                     <p:remoteCommand name="ausentismos" action="ausentismos" />
-
+                    <p:remoteCommand name="crearActa" action="crearActa" />
                 </h:form>
             </div>
             <div id="content" class="left_content">

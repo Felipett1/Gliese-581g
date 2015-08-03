@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="./resources/css/cssLayout.css"/>
+    </h:head>
+    <h:body>
+        <div id="top" style="background-image: url(Imagenes/bannerTata.png); height: 50px; background-repeat: no-repeat; background-size: 100% 100%;"/>
+        <ui:composition template="../Plantilla.xhtml">
+            <ui:define name="body"> 
+                <h:form id="formActa">
+                    <p:growl id="growl" sticky="true" showDetail="true" showSummary="true"/>
+                    <p:wizard flowListener="#{controladorCrearActa.onFlowProcess}">
+
+                        <p:tab id="acta" title="Acta Recursos">
+                            <p:panel header="Detalles Acta">
+                                <h:panelGrid columns="6" styleClass="noBorders">
+                                    <h:outputText value="Número Acta" />
+                                    <p:inputText id="numeroActa" value="#{controladorCrearActa.acta.numeroActa}" style="width:200px;color: black" required="true" requiredMessage="Obligatorio"/>
+                                    <p:message for="numeroActa"/>
+                                    <h:outputText value="Nombre" />
+                                    <p:inputText id="nombreActa" value="#{controladorCrearActa.acta.nombre}" type="text" style="width: 300px;color: black" required="true" requiredMessage="Obligatorio"/>
+                                    <p:message for="nombreActa"/>
+                                    <h:outputText value="Horas Asignadas"/>
+                                    <p:inputText id="horasActa" value="#{controladorCrearActa.acta.horas}" type="text" style="width: 120px;color: black" required="true" requiredMessage="Obligatorio"/>
+                                    <p:message for="horasActa"/>
+                                    <h:outputText value="Presupuesto"/>
+                                    <p:inputText id="presu" value="#{controladorCrearActa.acta.presupuesto}"  type="text" style="width: 180px;color: black" required="true" requiredMessage="Obligatorio"/>
+                                    <p:message for="presu"/>
+                                    <h:outputText value="Fecha Inicial"/>
+                                    <p:calendar id="calIni" value="#{controladorCrearActa.acta.fechaInicio}" pattern="dd/MM/yyyy" required="true" requiredMessage="Obligatorio" mask="true"/>
+                                    <p:message for="calIni"/>
+                                    <h:outputText value="Fecha Final"/>
+                                    <p:calendar id="calFin" value="#{controladorCrearActa.acta.fechaFin}" pattern="dd/MM/yyyy" required="true" requiredMessage="Obligatorio" mask="true"/>
+                                    <p:message for="calFin"/>
+                                </h:panelGrid>
+                            </p:panel> 
+                        </p:tab>
+
+                        <p:tab id="asignacion" title="Asignacion">
+                            <p:panel header="Detalles Asignación">
+                                <p:dataTable id="tblAsignaciones" widgetVar="tblAsignaciones"  value="#{controladorCrearActa.asignaciones}" var="asignacion" 
+                                             selectionMode="single" selection="#{controladorCrearActa.seleccionAsignacion}" rowIndexVar="indice" rowKey="#{asignacion.idRecurso}" emptyMessage="No existen asignaciones." >
+                                    <p:column headerText="Recurso">
+                                        <h:outputText value="#{asignacion.idRecurso.nombreCompleto}" />
+                                    </p:column>
+                                    <p:column headerText="Rol" width="150">
+                                        <h:outputText value="#{asignacion.idRecurso.rol.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Fecha Inicial" width="100">
+                                        <h:outputText value="#{asignacion.fechaInicio}">
+                                            <f:convertDateTime parent="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Fecha Final Estimada" width="150">
+                                        <center>
+                                            <h:outputText value="#{asignacion.fechaFinEstimada}">
+                                                <f:convertDateTime parent="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </center>
+                                    </p:column>
+                                    <p:column headerText="# Horas" width="60">
+                                        <h:outputText value="#{asignacion.horas}" />
+                                    </p:column>
+                                    <p:column headerText="Costo" width="120">
+                                        <h:outputText value="#{asignacion.costoRecurso}" >
+                                            <f:convertNumber currencySymbol="$" type="currency" />
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column width="50" headerText="Editar">
+                                        <center>
+                                            <p:commandButton icon="ui-icon-refresh" oncomplete="PF('dialogoEditarAsignacion').show();" 
+                                                             onclick="PF('tblAsignaciones').unselectAllRows(#{indice}); PF('tblAsignaciones').selectRow(#{indice});" 
+                                                             update=":formActa:growl, :formActa:tblAsignaciones, :formularioDialogos:panelAsignacionEditar"/>
+                                        </center>
+                                    </p:column>
+
+                                    <p:column width="50" headerText="Eliminar">
+                                        <center>
+                                            <p:commandButton icon="ui-icon-close"  
+                                                             onclick="PF('tblAsignaciones').unselectAllRows(#{indice}); PF('tblAsignaciones').selectRow(#{indice}); PF('dialogoEliminarAsignacion').show();" 
+                                                             update=":formActa:growl, :formActa:tblAsignaciones"/>
+                                        </center>
+                                    </p:column>
+                                </p:dataTable> 
+                                <br/>
+                                <p:commandButton  icon="ui-icon-plus" value="Agregar" oncomplete="PF('dialogoCrearAsignacion').show();"/>
+                            </p:panel> 
+                        </p:tab>
+
+                        <p:tab id="asistResumen" title="Confirmación">
+                            <p:panel header="Resumen Creación Acta">
+                                <p:panelGrid columns="6" styleClass="noBorders">
+                                    <h:outputText value="Número Acta" style="font-weight: bold"/>
+                                    <h:outputText value="#{controladorCrearActa.acta.numeroActa}" />
+                                    <h:outputText value="Nombre" style="width:200px;color: black"/>
+                                    <h:outputText value="#{controladorCrearActa.acta.nombre}" />
+                                    <h:outputText value="Horas Asignadas" style="width:200px;color: black"/>
+                                    <h:outputText value="#{controladorCrearActa.acta.horas}" />
+                                    <h:outputText value="Presupuesto" style="width:200px;color: black"/>
+                                    <h:outputText value="#{controladorCrearActa.acta.presupuesto}" >
+                                        <f:convertNumber currencySymbol="$" type="currency" />
+                                    </h:outputText>
+                                    <h:outputText value="Fecha Inicial" style="width:200px;color: black"/>
+                                    <h:outputText value="#{controladorCrearActa.acta.fechaInicio}" >
+                                        <f:convertDateTime parent="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                    <h:outputText value="Fecha Final" style="width:200px;color: black"/>
+                                    <h:outputText value="#{controladorCrearActa.acta.fechaFin}" >
+                                        <f:convertDateTime parent="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:panelGrid>
+                                <br/>
+                                <p:dataTable id="tblAsignacionesResumen" value="#{controladorCrearActa.asignaciones}" var="asignacion" 
+                                             rowKey="#{asignacion.id}" emptyMessage="No existen asignaciones.">
+                                    <p:column headerText="Recurso">
+                                        <h:outputText value="#{asignacion.idRecurso.nombreCompleto}" />
+                                    </p:column>
+                                    <p:column headerText="Rol" width="150">
+                                        <h:outputText value="#{asignacion.idRecurso.rol.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Fecha Inicial" width="100">
+                                        <h:outputText value="#{asignacion.fechaInicio}">
+                                            <f:convertDateTime parent="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Fecha Final Estimada" width="150">
+                                        <center>
+                                            <h:outputText value="#{asignacion.fechaFinEstimada}">
+                                                <f:convertDateTime parent="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </center>
+                                    </p:column>
+                                    <p:column headerText="# Horas" width="60">
+                                        <h:outputText value="#{asignacion.horas}" />
+                                    </p:column>
+                                    <p:column headerText="Costo" width="120">
+                                        <h:outputText value="#{asignacion.costoRecurso}" >
+                                            <f:convertNumber currencySymbol="$" type="currency" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <br/>
+                                <p:commandButton id="crearActa" value="Crear Acta" style="position: relative; left: 942px" process="@this"/>
+                            </p:panel> 
+                        </p:tab>
+                    </p:wizard>
+                </h:form>
+                <h:form id="formularioDialogos">
+                    <p:dialog id="dialogoCrearAsignacion" widgetVar="dialogoCrearAsignacion" header="Crear Asignación"
+                              closable="false" resizable="false" modal="true" draggable="false">
+                        <p:panelGrid columns="2" id="panelAsignacion">
+                            <p:outputLabel for="recursoAsignacion" value="Recurso: " style="font-weight: bold"/>
+                            <p:column>
+                                <p:inputText id="recursoAsignacion" value="#{controladorCrearActa.nuevaAsignacion.idRecurso.nombreCompleto}" readonly="true" />
+                                <p:commandButton icon="ui-icon-search" style="width: 30px; height: 30px;"
+                                                 actionListener="#{controladorCrearActa.opcionLovRecursos(0)}" oncomplete="PF('lovRecursos').show();"/>
+                            </p:column>
+
+                            <p:outputLabel for="fechaInicioAsignacion" value="Fecha inicio: " style="font-weight: bold"/>
+                            <p:calendar id="fechaInicioAsignacion" value="#{controladorCrearActa.nuevaAsignacion.fechaInicio}" pattern="dd/MM/yyyy" mask="true" >
+                                <p:ajax event="dateSelect" listener="#{controladorCrearActa.obtenerResultadoDiasHabiles(0)}" update="fechaFinAsignacion"/>
+                                <p:ajax event="change" listener="#{controladorCrearActa.obtenerResultadoDiasHabiles(0)}" update="fechaFinAsignacion"/>
+                            </p:calendar>
+
+                            <p:outputLabel for="horasAsignacion" value="# Horas: " style="font-weight: bold"/>
+                            <p:inputText id="horasAsignacion" value="#{controladorCrearActa.nuevaAsignacion.horas}">
+                                <p:ajax event="change" listener="#{controladorCrearActa.obtenerCostoRecurso(0)}" update="costoRecurso"/>
+                            </p:inputText>
+
+                            <p:outputLabel for="fechaFinAsignacion" value="Fecha fin estimada: " style="font-weight: bold"/>
+                            <h:outputText id="fechaFinAsignacion" value="#{controladorCrearActa.nuevaAsignacion.fechaFinEstimada}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+
+                            <p:outputLabel for="costoRecurso" value="Costo: " style="font-weight: bold"/>
+                            <h:outputText id="costoRecurso" value="#{controladorCrearActa.nuevaAsignacion.costoRecurso}" >
+                                <f:convertNumber currencySymbol="$" type="currency" />
+                            </h:outputText>
+
+                        </p:panelGrid>
+                        <br/>
+                        <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('dialogoCrearAsignacion').hide();"
+                                         style="float: right;"/>
+                        <p:commandButton value="Aceptar" icon="ui-icon-check" update=":formActa:growl, :formActa:tblAsignaciones"
+                                         actionListener="#{controladorCrearActa.agregarAsignacion()}" 
+                                         style="float: right" process="@this, panelAsignacion"/>
+                    </p:dialog>
+
+                    <p:dialog id="lovRecursos" widgetVar="lovRecursos" header="Recursos"
+                              closable="false" resizable="false" modal="true" draggable="false" width="800">
+
+                        <p:dataTable id="tblLovRecursos" var="recurso" value="#{controladorCrearActa.lovRecursos}" widgetVar="tblLovRecursos"
+                                     emptyMessage="No se encontrarón recursos" filteredValue="#{controladorCrearActa.filtradoLovRecursos}"
+                                     selectionMode="single" selection="#{controladorCrearActa.seleccionRecurso}" 
+                                     rowKey="#{recurso.identificacion}" rowIndexVar="indiceRecurso">
+                            <p:ajax event="rowSelect"/>
+                            <f:facet name="header">
+                                <div align="left">
+                                    <h:outputText value="Buscar: " />
+                                    <p:inputText id="globalFilter" onkeyup="PF('tblLovRecursos').filter()" style="width:150px" placeholder="Ingrese una palabra"/>
+                                </div>
+                            </f:facet>
+
+                            <p:column filterStyle="display: none; visibility: hidden;" filterBy="#{recurso.identificacion}" headerText="Identificación" filterMatchMode="contains" width="100">
+                                <h:outputText value="#{recurso.identificacion}" />
+                            </p:column>
+
+                            <p:column filterStyle="display: none; visibility: hidden;" filterBy="#{recurso.nombreCompleto}" headerText="Nombre" filterMatchMode="contains">
+                                <h:outputText value="#{recurso.nombreCompleto}" />
+                            </p:column>
+
+                            <p:column filterStyle="display: none; visibility: hidden;" filterBy="#{recurso.rol.nombre}" headerText="Rol" filterMatchMode="contains" width="200">
+                                <h:outputText value="#{recurso.rol.nombre}" />
+                            </p:column>
+                        </p:dataTable>
+
+                        <br/>
+                        <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('lovRecursos').hide();"
+                                         style="float: right;"/>
+                        <p:commandButton value="Aceptar" icon="ui-icon-check"
+                                         actionListener="#{controladorCrearActa.seleccionarRecurso()}" oncomplete="PF('lovRecursos').hide();"
+                                         style="float: right" process="@this"/>
+                    </p:dialog>
+
+                    <p:dialog id="dialogoEditarAsignacion" widgetVar="dialogoEditarAsignacion" header="Editar Asignación"
+                              closable="false" resizable="false" modal="true" draggable="false">
+                        <p:panelGrid columns="2" id="panelAsignacionEditar">
+                            <p:outputLabel for="recursoAsignacionEditar" value="Recurso: " style="font-weight: bold"/>
+                            <p:column>
+                                <p:inputText id="recursoAsignacionEditar" value="#{controladorCrearActa.seleccionAsignacion != null ? controladorCrearActa.seleccionAsignacion.idRecurso.nombreCompleto : ''}" readonly="true" />
+                                <p:commandButton icon="ui-icon-search" style="width: 30px; height: 30px;"
+                                                 actionListener="#{controladorCrearActa.opcionLovRecursos(1)}" oncomplete="PF('lovRecursos').show();"/>
+                            </p:column>
+
+                            <p:outputLabel for="fechaInicioAsignacionEditar" value="Fecha inicio: " style="font-weight: bold"/>
+                            <p:calendar id="fechaInicioAsignacionEditar" value="#{controladorCrearActa.seleccionAsignacion != null ? controladorCrearActa.seleccionAsignacion.fechaInicio : null}" pattern="dd/MM/yyyy" mask="true" >
+                                <p:ajax event="dateSelect" listener="#{controladorCrearActa.obtenerResultadoDiasHabiles(1)}" update="fechaFinAsignacionEditar"/>
+                                <p:ajax event="change" listener="#{controladorCrearActa.obtenerResultadoDiasHabiles(1)}" update="fechaFinAsignacionEditar"/>
+                            </p:calendar>
+
+                            <p:outputLabel for="horasAsignacionEditar" value="# Horas: " style="font-weight: bold"/>
+                            <p:inputText id="horasAsignacionEditar" value="#{controladorCrearActa.seleccionAsignacion != null ? controladorCrearActa.seleccionAsignacion.horas : ''}">
+                                <p:ajax event="change" listener="#{controladorCrearActa.obtenerCostoRecurso(1)}" update="horasAsignacionEditar"/>
+                            </p:inputText>
+
+                            <p:outputLabel for="fechaFinAsignacionEditar" value="Fecha fin estimada: " style="font-weight: bold"/>
+                            <h:outputText id="fechaFinAsignacionEditar" value="#{controladorCrearActa.seleccionAsignacion != null ? controladorCrearActa.seleccionAsignacion.fechaFinEstimada : ''}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+
+                            <p:outputLabel for="costoRecursoEditar" value="Costo: " style="font-weight: bold"/>
+                            <h:outputText id="costoRecursoEditar" value="#{controladorCrearActa.seleccionAsignacion != null ? controladorCrearActa.seleccionAsignacion.costoRecurso : ''}" >
+                                <f:convertNumber currencySymbol="$" type="currency" />
+                            </h:outputText>
+
+                        </p:panelGrid>
+                        <br/>
+                        <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('dialogoEditarAsignacion').hide();"
+                                         style="float: right;"/>
+                        <p:commandButton value="Aceptar" icon="ui-icon-check" update=":formActa:growl, :formActa:tblAsignaciones"
+                                         actionListener="#{controladorCrearActa.modificarAsignacion()}" 
+                                         style="float: right" process="@this, panelAsignacion"/>
+                    </p:dialog>
+
+                    <p:dialog id="dialogoEliminarAsignacion" widgetVar="dialogoEliminarAsignacion" header="Eliminar asignación"
+                              closable="false" resizable="false" modal="true" draggable="false">
+                        <p:panelGrid columns="2">
+                            <p:column>
+                                <h:graphicImage value="Imagenes/alerta.jpg" width="80" height="60"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="¿Esta seguro de que desea eliminar esta asignación?"/>
+                                <br/><br/>
+                                <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('dialogoEliminarAsignacion').hide();"
+                                                 style="float: right;"/>
+                                <p:commandButton value="Aceptar" icon="ui-icon-check" update=":formActa:growl, :formActa:tblAsignaciones"
+                                                 actionListener="#{controladorCrearActa.eliminarAsignacion()}" onclick="PF('dialogoEliminarAsignacion').hide();"
+                                                 style="float: right" process="@this"/>
+                            </p:column>
+                        </p:panelGrid>
+                    </p:dialog>
+
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
