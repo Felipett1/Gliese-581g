@@ -19,6 +19,8 @@ public class Acta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @Column(name = "ID")
+    private BigDecimal id;
     @Basic(optional = false)
     @NotNull
     @Column(name = "NUMERO_ACTA")
@@ -131,6 +133,14 @@ public class Acta implements Serializable {
         int hash = 0;
         hash += (numeroActa != null ? numeroActa.hashCode() : 0);
         return hash;
+    }
+
+    public BigDecimal getId() {
+        return id;
+    }
+
+    public void setId(BigDecimal id) {
+        this.id = id;
     }
 
     @Override

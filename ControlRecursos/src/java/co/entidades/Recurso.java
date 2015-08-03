@@ -1,6 +1,7 @@
 package co.entidades;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -17,7 +18,8 @@ public class Recurso implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID")
+    private BigDecimal id;
     @Column(name = "IDENTIFICACION")
     private Long identificacion;
     @Column(name = "NOMBRE")
@@ -83,6 +85,14 @@ public class Recurso implements Serializable {
 
     public void setRol(Rol rol) {
         this.rol = rol;
+    }
+
+    public BigDecimal getId() {
+        return id;
+    }
+
+    public void setId(BigDecimal id) {
+        this.id = id;
     }
 
     public String getNombreCompleto() {

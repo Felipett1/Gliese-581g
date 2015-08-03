@@ -14,6 +14,6 @@ public interface IPersistenciaAsignacion {
 
     public boolean registrarAsignacion(Asignacion asignacion);
 
-    public boolean validarAsignacionRecurso(java.lang.Long identificacionRecurso);
+    public boolean validarAsignacionRecurso(Long identificacionRecurso);
     
 }

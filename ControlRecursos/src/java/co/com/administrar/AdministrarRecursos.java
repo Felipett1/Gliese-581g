@@ -53,19 +53,24 @@ public class AdministrarRecursos implements IAdministrarRecursos {
     public List<Rol> obtenerListadoRoles() {
         return persistenciaRol.obtenerRoles();
     }
-    
+
     @Override
-    public Rol obtenerRol(BigDecimal id){
+    public Rol obtenerRol(BigDecimal id) {
         return persistenciaRol.obtenerRol(id);
     }
-    
+
     @Override
-    public boolean validarAsignacionRecurso(Long identificacionRecurso){
+    public boolean validarAsignacionRecurso(Long identificacionRecurso) {
         return persistenciaAsignacion.validarAsignacionRecurso(identificacionRecurso);
     }
-    
+
     @Override
-    public boolean validarAusentismoRecurso(Long identificacionRecurso){
+    public boolean validarAusentismoRecurso(Long identificacionRecurso) {
         return persistenciaAusentismo.validarAusentismoRecurso(identificacionRecurso);
+    }
+
+    @Override
+    public List<Recurso> obtenerRecursosDisponible() {
+        return persistenciaRecurso.obtenerRecursosDisponible();
     }
 }

@@ -12,7 +12,7 @@ public interface IPersistenciaAusentismo {
 
     public boolean ingresarAusentismo(co.entidades.Ausentismo ausentismo);
 
-    public boolean validarAusentismoRecurso(java.lang.Long identificacionRecurso);
+    public boolean validarAusentismoRecurso(Long idRecurso);
 
     public boolean eliminarAusentismo(co.entidades.Ausentismo ausentismo);
 

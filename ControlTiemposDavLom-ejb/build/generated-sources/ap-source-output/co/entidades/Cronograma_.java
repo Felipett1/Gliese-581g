@@ -7,7 +7,7 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.3.0.v20110604-r9504", date="2015-07-30T08:00:04")
+@Generated(value="EclipseLink-2.3.0.v20110604-r9504", date="2015-08-03T08:41:40")
 @StaticMetamodel(Cronograma.class)
 public class Cronograma_ { 
 
@@ -31,8 +31,8 @@ public class Cronograma_ {
     public static volatile SingularAttribute<Cronograma, BigDecimal> sv;
     public static volatile SingularAttribute<Cronograma, BigDecimal> pv;
     public static volatile SingularAttribute<Cronograma, BigDecimal> vac;
-    public static volatile SingularAttribute<Cronograma, Date> fechaInicio;
     public static volatile SingularAttribute<Cronograma, BigInteger> dias_corte;
+    public static volatile SingularAttribute<Cronograma, Date> fechaInicio;
     public static volatile SingularAttribute<Cronograma, BigDecimal> cpi;
 
 }

@@ -5,7 +5,7 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.3.0.v20110604-r9504", date="2015-07-30T08:00:04")
+@Generated(value="EclipseLink-2.3.0.v20110604-r9504", date="2015-08-03T08:41:40")
 @StaticMetamodel(Empleados.class)
 public class Empleados_ { 
 
@@ -19,9 +19,9 @@ public class Empleados_ {
     public static volatile SingularAttribute<Empleados, String> employeeName;
     public static volatile SingularAttribute<Empleados, BigInteger> allocationStartDate;
     public static volatile SingularAttribute<Empleados, BigInteger> age;
+    public static volatile SingularAttribute<Empleados, BigInteger> dateOfJoining;
     public static volatile SingularAttribute<Empleados, String> assignmentStatus;
     public static volatile SingularAttribute<Empleados, String> employeeGroup;
-    public static volatile SingularAttribute<Empleados, BigInteger> dateOfJoining;
     public static volatile SingularAttribute<Empleados, String> maleFemale;
     public static volatile SingularAttribute<Empleados, String> grade;
     public static volatile SingularAttribute<Empleados, String> employeeDeputeCountry;

@@ -93,8 +93,20 @@ public class PersistenciaRecurso implements IPersistenciaRecurso {
             query.setParameter("idRol", idRol);
             return (Long) query.getSingleResult() > 0;
         } catch (Exception e) {
-            System.out.println("Error PersistenciaAsignacion.validarAsignacionRecurso: " + e);
+            System.out.println("Error PersistenciaRecursos.validarRolEnRecurso: " + e);
             return true;
+        }
+    }
+
+    @Override
+    public List<Recurso> obtenerRecursosDisponible() {
+        try {
+
+            Query query = em.createQuery("SELECT r FROM Recurso r WHERE EXISTS (SELECT a1 FROM Asignacion a1 WHERE a1.idRecurso.identificacion = r.identificacion AND a1.estado = 'I') OR NOT EXISTS (SELECT a2 FROM Asignacion a2 WHERE a2.idRecurso.identificacion = r.identificacion)");
+            return query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Error PersistenciaRecursos.obtenerRecursosDisponible: " + e);
+            return null;
         }
     }
 }

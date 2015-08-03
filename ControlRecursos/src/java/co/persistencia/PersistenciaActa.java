@@ -28,7 +28,7 @@ public class PersistenciaActa implements IPersistenciaActa {
     @Override
     public boolean validarNumeroActa(BigDecimal numeroActa) {
         try {
-            Query query = em.createQuery("SELECT COUNT(a) FROM ACTA a WHERE a.numeroActa = :numeroActa");
+            Query query = em.createQuery("SELECT COUNT(a) FROM Acta a WHERE a.numeroActa = :numeroActa");
             query.setParameter("numeroActa", numeroActa);
             return (Long) query.getSingleResult() > 0;
         } catch (Exception e) {

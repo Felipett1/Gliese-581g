@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "ASIGNACION")
 @XmlRootElement
 public class Asignacion implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -45,6 +46,8 @@ public class Asignacion implements Serializable {
     @JoinColumn(name = "ID_ACTA", referencedColumnName = "NUMERO_ACTA")
     @ManyToOne(optional = false)
     private Acta idActa;
+    @Transient
+    private BigDecimal costoRecurso;
 
     public Asignacion() {
     }
@@ -116,6 +119,14 @@ public class Asignacion implements Serializable {
         this.idActa = idActa;
     }
 
+    public BigDecimal getCostoRecurso() {
+        return costoRecurso;
+    }
+
+    public void setCostoRecurso(BigDecimal costoRecurso) {
+        this.costoRecurso = costoRecurso;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -140,5 +151,4 @@ public class Asignacion implements Serializable {
     public String toString() {
         return "co.entidades.Asignacion[ id=" + id + " ]";
     }
-    
 }
